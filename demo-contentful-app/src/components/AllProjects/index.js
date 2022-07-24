@@ -1,73 +1,40 @@
+import { useState, useEffect } from 'react';
+import useContentful from '../../custom-hooks/useContentful';
 import '../../App.css';
 import Project from '../Project';
-import { useState, useEffect } from 'react';
-
-const query = `
-{
-  projectCollection {
-    total
-    items {
-      projectTitle
-      projectDescription {
-        json 
-      }
-      projectImagesCollection {
-        items {
-          description
-          url
-        }
-      }
-    }
-  }
-}
-`;
+import { Link } from 'react-router-dom';
 
 const AllProjects = () => {
 
-    const [allProjects, setAllProjects] = useState(null);
+  const [projects, setProjects] = useState([]);
+  // const [isLoading, setIsLoading] = useState(true);
+  const { getAllProjects } = useContentful();
 
-    useEffect(() => {
-    window
-      .fetch(`https://graphql.contentful.com/content/v1/spaces/${process.env.REACT_APP_CONTENTFUL_SPACE_ID}/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // authenticate the request
-          "Authorization": `Bearer ${process.env.REACT_APP_CONTENTFUL_ACCESS_TOKEN}`,
-        },
-        // send the GraphQL query
-        body: JSON.stringify({ query }),
-      })
-      .then((response) => response.json())
-      .then(({data, errors}) => {
-        if (errors) { console.error(errors) }
-
-        // rerender the entire component with new data
-        setAllProjects(data.projectCollection.items);
-        console.log('data.projectCollection: ', data.projectCollection.items);
-      });
-  }, []);
-
-  // show a loading screen case the data hasn't arrived yet
-  if (!allProjects) {
-    return <p className="loading">Loading...</p>;
-  }
-
-  const renderProjects = () => {
-    return allProjects.map(project => (
-      <Project 
-        title={project.projectTitle} 
-        description={project.projectDescription.json.content[0].content[0].value} 
-        coverImage={project.projectImagesCollection.items[0].url}
-        key={project.projectTitle}
-      >
-      </Project>
-    ))
-  }
+  useEffect(() => {
+    getAllProjects().then(response => {
+      console.log('response.items: ', response.items);
+      return response.items && setProjects(response.items)
+    });
+  });
 
   return (
-      <div className="projects-wrapper">{renderProjects()}</div>
-  );
+    <div className="projects-wrapper">
+      { projects.map(project => (
+        // <Link
+        // className="allProjects__project"
+        // key={`/projects/${project.fields.slug}`}
+        // to={`/projects/${project.fields.slug}`}
+        // >
+          <Project 
+          title={project.fields.projectTitle} 
+          description={project.fields.projectDescription.content[0].content[0].value} 
+          coverImage={project.fields.projectImages[0].fields.file.url}
+          key={project.fields.projectTitle}
+          />
+        // </Link>
+      ))};
+    </div>
+  )
 }
 
 export default AllProjects;
