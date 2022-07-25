@@ -1,21 +1,32 @@
-// import { useState, useEffect } from 'react';
-// import useContentful from './useContentful';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { client } from '../../client';
 
-// const useSingleProject = (slug) => {
-//   const { getSingleProject } = useContentful();
-//   const clickedProject = getSingleProject(slug);
+const SingleProject = () => {
+  const [singleProject, setSingleProject] = useState(null);
+  const { slug } = useParams();
 
-//   const [project, setProject] = useState(null);
+  useEffect(() => {
+    console.log('slug inside useEffect: ', slug);
+    // have to use getEntries with a limit of 1 instead of getEntry, which will only accept an entry ID as a query
+    client.getEntries({
+        content_type: 'project',
+        'fields.slug': slug,
+        limit: 1
+    })
+    .then(response => setSingleProject(response.items[0]))
+    .catch(error => console.log('Error getting single projects: ', error));
+  }, [slug]);
 
-//   useEffect(() => {
-//     console.log('slug: ', slug);
-//     clickedProject.then(response => {
-//         console.log('response in project: ', response)
-//         setProject(response[0].fields)
-//     });
-//   });
+  if (!singleProject) return <div>Loading...</div>;
 
-//   return project;
-// }
+  return (
+    <div className="project-wrapper">
+      <h1 className="project-title">{singleProject.fields.projectTitle}</h1>
+      {singleProject.fields.projectImages[0] ? <img src={singleProject.fields.projectImages[0].fields.file.url} className="project-cover-image" alt="logo"/> : <></> }
+      <p className="project-desc">{singleProject.fields.projectDescription.content[0].content[0].value}</p>
+    </div>
+  )
+}
 
-// export default useSingleProject;
+export default SingleProject;

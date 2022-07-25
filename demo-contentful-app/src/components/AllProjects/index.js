@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import '../../App.css';
-import ProjectCard from '../ProjectCard';
 import { client } from '../../client';
 import { Link } from 'react-router-dom';
 
@@ -16,17 +15,23 @@ const AllProjects = () => {
 
   return (
     <div className="projects-wrapper">
-      { projects && projects.map((project, index) => (
-        <Link
-          key={index}
-          to={'/all-projects/' + project.fields.slug}
-        >
-          <ProjectCard 
-            project={project}
+      { projects && projects.map((project, index) => {
+        console.log('project in all projects map: ', project);
+        console.log('project.fields.slug in all projects map: ', project.fields.slug);
+        return (
+           <Link
             key={index}
-          />
+            to={'/all-projects/' + project.fields.slug}
+          >
+          <div className="project-wrapper">
+            <h1 className="project-title">{project.fields.projectTitle}</h1>
+            {project.fields.projectImages[0] ? <img src={project.fields.projectImages[0].fields.file.url} className="project-cover-image" alt="logo"/> : <></> }
+            <p className="project-desc">{project.fields.projectDescription.content[0].content[0].value}</p>
+          </div>
         </Link>
-      ))}
+        )
+      }
+      )}
     </div>
   )
 }

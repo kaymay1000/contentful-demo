@@ -1,9 +1,7 @@
 import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
-// import AllProjectsPage from './pages/AllProjectsPage';
-// import ProjectDetailPage from './pages/ProjectDetailPage';
-import ProjectCard from './components/ProjectCard';
+import SingleProject from './components/SingleProject';
 import AllProjects from './components/AllProjects';
 import {
   BrowserRouter as Router,
@@ -22,7 +20,7 @@ const App = () => {
         />
         <Route 
           path="/all-projects/:slug"
-          element={<ProjectCard />}
+          element={<SingleProject/>}
         />
         <Route 
           path="all-projects"
