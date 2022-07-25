@@ -1,8 +1,8 @@
-import './App.css';
+import './App.scss';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import SingleProject from './components/SingleProject';
-import AllProjects from './components/AllProjects';
+import SingleProjectPage from './pages/SingleProjectPage';
+import AllProjectsPage from './pages/AllProjectsPage';
 import {
   BrowserRouter as Router,
   Routes,
@@ -20,11 +20,11 @@ const App = () => {
         />
         <Route 
           path="/all-projects/:slug"
-          element={<SingleProject/>}
+          element={<SingleProjectPage/>}
         />
         <Route 
           path="all-projects"
-          element={<AllProjects/>}
+          element={<AllProjectsPage/>}
         />
         <Route 
           path="*"

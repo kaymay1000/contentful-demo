@@ -1,9 +1,0 @@
-a {
-  color: white;
-  text-decoration: none;
-  margin: 0 20px;
-}
-
-a:hover {
-  text-decoration: underline;
-}
