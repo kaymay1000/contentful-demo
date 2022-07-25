@@ -1,38 +1,32 @@
 import { useState, useEffect } from 'react';
-import useContentful from '../../custom-hooks/useContentful';
 import '../../App.css';
-import Project from '../Project';
+import ProjectCard from '../ProjectCard';
+import { client } from '../../client';
 import { Link } from 'react-router-dom';
 
 const AllProjects = () => {
 
   const [projects, setProjects] = useState([]);
-  // const [isLoading, setIsLoading] = useState(true);
-  const { getAllProjects } = useContentful();
 
   useEffect(() => {
-    getAllProjects().then(response => {
-      console.log('response.items: ', response.items);
-      return response.items && setProjects(response.items)
-    });
-  });
+    client.getEntries({content_type: 'project'})
+    .then(response => setProjects(response.items))
+    .catch(error => console.log('Error getting all projects: ', error));
+  }, []);
 
   return (
     <div className="projects-wrapper">
-      { projects.map(project => (
-        // <Link
-        // className="allProjects__project"
-        // key={`/projects/${project.fields.slug}`}
-        // to={`/projects/${project.fields.slug}`}
-        // >
-          <Project 
-          title={project.fields.projectTitle} 
-          description={project.fields.projectDescription.content[0].content[0].value} 
-          coverImage={project.fields.projectImages[0].fields.file.url}
-          key={project.fields.projectTitle}
+      { projects && projects.map((project, index) => (
+        <Link
+          key={index}
+          to={'/all-projects/' + project.fields.slug}
+        >
+          <ProjectCard 
+            project={project}
+            key={index}
           />
-        // </Link>
-      ))};
+        </Link>
+      ))}
     </div>
   )
 }

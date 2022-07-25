@@ -7,7 +7,6 @@ const Header = () => {
       <nav>
         <Link to="/">Home</Link>
         <Link to="/all-projects">All Projects</Link>
-        {/* <Link to="/project/:id">Project Detail Page</Link> */}
       </nav>
     </header>
   )
