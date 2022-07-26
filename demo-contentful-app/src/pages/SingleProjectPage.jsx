@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { contentfulClient } from '../contentfulClient';
+import { contentfulDeliveryClient } from '../contentfulClients';
 import ProjectCard from '../components/ProjectCard';
 import './single-project.scss';
 
@@ -10,7 +10,7 @@ const SingleProjectPage = () => {
 
   useEffect(() => {
     // have to use getEntries with a limit of 1 instead of getEntry, which will only accept an entry ID as a query
-    contentfulClient.getEntries({
+    contentfulDeliveryClient.getEntries({
         content_type: 'project',
         'fields.slug': slug,
         limit: 1
