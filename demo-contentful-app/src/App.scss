@@ -1,11 +1,19 @@
-.App {
-  text-align: center;
+.flex {
+  display: flex;
+  flex-direction: row;
 }
 
-.loading {
-  display: block;
-  margin: 50px auto;
-  text-align: center;
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
+
+.page-wrapper {
+  padding: 20px 50px;
 }
 
 

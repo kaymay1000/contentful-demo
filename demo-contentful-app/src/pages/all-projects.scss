@@ -1,6 +1,15 @@
-.all-projects-page-wrapper {
+.projects-wrapper {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  padding: 0 20px;
+  justify-content: space-around;
+}
+
+.all-filters {
+  display: flex;
+  flex-direction: column;
+  column-count: 2;
+}
+
+.filter-item {
+  width: auto;
 }
