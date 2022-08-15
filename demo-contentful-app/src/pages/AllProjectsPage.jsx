@@ -7,6 +7,7 @@ import '../App.scss';
 const AllProjectsPage = () => {
 
   const [allTags, setAllTags] = useState([]);
+  const [allProjects, setAllProjects] = useState([]);
   const [currentFilters, setCurrentFilters] = useState([]);
   const [currentProjects, setCurrentProjects] = useState([]);
 
@@ -14,7 +15,6 @@ const AllProjectsPage = () => {
     let currentFltrs = currentFilters;
     let clickedFilter = event.target.id;
     let clicked = currentFltrs.indexOf(clickedFilter);
-    console.log('clicked filter: ', clickedFilter);
     
     if (clicked > -1) {
       // if clickedFilter already exists selectedFilters, it must have been unchecked, so remove it
@@ -22,19 +22,19 @@ const AllProjectsPage = () => {
     } else {
       // otherwise, clickedFilter didn't exist in selectedFilters, so add it
       currentFltrs.push(clickedFilter);
-      console.log('current filters array: ', currentFltrs);
     }
 
     setCurrentFilters(currentFltrs);
-    filterProjects(currentFilters);
+    filterProjects();
   };
 
-  const filterProjects = (filters) => {
-    console.log('selectedFilters coming into filter projects: ', filters);
+  const filterProjects = () => {
+
     let projectsToDisplay = [];
+    let currentFltrs = currentFilters;
     
-    currentProjects.filter(project => {
-      console.log('projects to display inside filter: ', projectsToDisplay)
+    allProjects.filter(project => {
+      
         // TODO: figure out AND logic
         // if (project.metadata.tags.every(tag => filters.includes(tag))) {
         //   projectsToDisplay.push(project);
@@ -43,22 +43,33 @@ const AllProjectsPage = () => {
         // OR logic
         project.metadata.tags.map(tag => {
             if (!projectsToDisplay.includes(project)) {
-              if (filters.includes(tag.sys.id)) {
+              console.log('current filters list inside project map: ', currentFltrs)
+              if (currentFltrs.includes(tag.sys.id)) {
+                console.log('tag.sys.id: ', tag);
+                console.log('project inside of includes: ', project);
                 projectsToDisplay.push(project);
               }
             }
         });
     });
 
-    setCurrentProjects(projectsToDisplay);
-    return projectsToDisplay;
+    console.log('projects to display end of filter: ', projectsToDisplay);
+
+    if (currentFilters.length === 0) {
+       setCurrentProjects(allProjects);
+    }
+    else {
+      setCurrentProjects(projectsToDisplay)
+    }
   }
-
-
+  
   useEffect(() => {
     const getAllProjects = async () => {
       await contentfulDeliveryClient.getEntries({content_type: 'project'})
-      .then(response => setCurrentProjects(response.items))
+      .then(response => {
+        setAllProjects(response.items)
+        setCurrentProjects(response.items)
+      })
       .catch(error => console.log('Error getting all projects: ', error));
     };
 
@@ -73,36 +84,6 @@ const AllProjectsPage = () => {
     getAllProjects();
     getAllTags();
   }, []); // empty dependency array since this should only run once (on page load/when component mounts)
-
-
-  // useEffect(() => {
-  //   const filterProjects = (filters) => {
-  //     console.log('selectedFilters coming into filter projects: ', filters);
-  //     let projectsToDisplay = [];
-      
-  //     currentProjects.filter(project => {
-  //       console.log('projects to display inside filter: ', projectsToDisplay)
-  //         // TODO: figure out AND logic
-  //         // if (project.metadata.tags.every(tag => filters.includes(tag))) {
-  //         //   projectsToDisplay.push(project);
-  //         // }
-
-  //         // OR logic
-  //         project.metadata.tags.map(tag => {
-  //             if (!projectsToDisplay.includes(project)) {
-  //               if (filters.includes(tag.sys.id)) {
-  //                 projectsToDisplay.push(project);
-  //               }
-  //             }
-  //         });
-  //     });
-
-  //     setCurrentProjects(projectsToDisplay);
-  //     return projectsToDisplay;
-  //   }
-
-  //   filterProjects(currentFilters);
-  // }, [currentFilters]);
 
   return (
     <div className="all-projects-page-wrapper page-wrapper">
@@ -124,11 +105,12 @@ const AllProjectsPage = () => {
       </div>
 
       <div className="projects-wrapper">
-        {currentProjects.map((project, index) => {
-          return <ProjectCard project={project} key={index}/>
-        })}
+        { 
+          currentProjects.map((project, index) => {
+            return <ProjectCard project={project} key={index} />
+          })
+        }
       </div>
-
     </div>
   )
 }
