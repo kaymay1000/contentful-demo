@@ -11,6 +11,28 @@ const AllProjectsPage = () => {
   const [currentFilters, setCurrentFilters] = useState([]);
   const [currentProjects, setCurrentProjects] = useState([]);
 
+  useEffect(() => {
+    const getAllProjects = async () => {
+      await contentfulDeliveryClient.getEntries({content_type: 'project'})
+      .then(response => {
+        setAllProjects(response.items)
+        setCurrentProjects(response.items)
+      })
+      .catch(error => console.log('Error getting all projects: ', error));
+    };
+
+    const getAllTags = async () => {
+      await contentfulManagementClient.getSpace(process.env.REACT_APP_CONTENTFUL_SPACE_ID)
+      .then(space => space.getEnvironment(process.env.REACT_APP_CONTENTFUL_ENVIRONMENT_ID))
+      .then(env => env.getTags())
+      .then(tags => setAllTags(tags.items))
+      .catch(console.error);
+    };
+
+    getAllProjects();
+    getAllTags();
+  }, []); // empty dependency array since this should only run once (on page load/when component mounts)
+
   const handleFilterChange = (event) => {
     let currentFltrs = currentFilters;
     let clickedFilter = event.target.id;
@@ -35,25 +57,22 @@ const AllProjectsPage = () => {
     
     allProjects.filter(project => {
       
-        // TODO: figure out AND logic
+        // TODO: figure out AND logic (matches many)
         // if (project.metadata.tags.every(tag => filters.includes(tag))) {
         //   projectsToDisplay.push(project);
         // }
 
-        // OR logic
+        // console.log('project: ', project);
+        // OR logic (matches one)
         project.metadata.tags.map(tag => {
-            if (!projectsToDisplay.includes(project)) {
-              console.log('current filters list inside project map: ', currentFltrs)
+          // console.log('tag: ', tag)
+            if (!projectsToDisplay.includes(project)) { // prevent duplicates from displaying
               if (currentFltrs.includes(tag.sys.id)) {
-                console.log('tag.sys.id: ', tag);
-                console.log('project inside of includes: ', project);
                 projectsToDisplay.push(project);
               }
             }
         });
     });
-
-    console.log('projects to display end of filter: ', projectsToDisplay);
 
     if (currentFilters.length === 0) {
        setCurrentProjects(allProjects);
@@ -62,28 +81,6 @@ const AllProjectsPage = () => {
       setCurrentProjects(projectsToDisplay)
     }
   }
-  
-  useEffect(() => {
-    const getAllProjects = async () => {
-      await contentfulDeliveryClient.getEntries({content_type: 'project'})
-      .then(response => {
-        setAllProjects(response.items)
-        setCurrentProjects(response.items)
-      })
-      .catch(error => console.log('Error getting all projects: ', error));
-    };
-
-    const getAllTags = async () => {
-      await contentfulManagementClient.getSpace(process.env.REACT_APP_CONTENTFUL_SPACE_ID)
-      .then((space) => space.getEnvironment(process.env.REACT_APP_CONTENTFUL_ENVIRONMENT_ID))
-      .then((env) => env.getTags())
-      .then(tags => setAllTags(tags.items))
-      .catch(console.error);
-    };
-
-    getAllProjects();
-    getAllTags();
-  }, []); // empty dependency array since this should only run once (on page load/when component mounts)
 
   return (
     <div className="all-projects-page-wrapper page-wrapper">
@@ -94,11 +91,11 @@ const AllProjectsPage = () => {
               <input
                 multiple
                 placeholder="Filter projects"
-                id={tag.name}
+                id={tag.sys.id} // tag.sys.id must be used (instead of tag.name) in order for filterProjects's map function to work properly
                 type="checkbox"
                 onChange={handleFilterChange}
               />
-              <label htmlFor={tag.name}>{tag.name}</label>
+              <label htmlFor={tag.sys.id}>{tag.name}</label>
             </div>
           )
         })}
@@ -107,7 +104,7 @@ const AllProjectsPage = () => {
       <div className="projects-wrapper">
         { 
           currentProjects.map((project, index) => {
-            return <ProjectCard project={project} key={index} />
+            return <ProjectCard project={project} key={index}/>
           })
         }
       </div>

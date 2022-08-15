@@ -1,10 +1,35 @@
+import { useEffect, useState } from 'react';
+import { contentfulManagementClient } from '../../contentfulClients';
 import { Link } from 'react-router-dom';
 import './project-card.scss';
 
 const ProjectCard = (project) => {
+
+  const [envTags, setEnvTags] = useState([]);
+  const [convertedProjectTags, setConvertedProjectTags] = useState([]);
+
   let fields = project.project.fields;
-  let tags = project.project.metadata.tags;
-  // console.log('project: ', project);
+  let projectTags = project.project.metadata.tags;
+
+  useEffect(() => {
+    const getEnvTags = async () => {
+      await contentfulManagementClient.getSpace(process.env.REACT_APP_CONTENTFUL_SPACE_ID)
+      .then(space => space.getEnvironment(process.env.REACT_APP_CONTENTFUL_ENVIRONMENT_ID))
+      .then(env => env.getTags())
+      .then(tags => setEnvTags(tags.items))
+      .catch(console.error);
+    };
+
+    getEnvTags();
+  }, []);
+
+  useEffect(() => {
+    let converted = projectTags.map(projectTag => {
+        return envTags.filter(envTag => envTag.sys.id === projectTag.sys.id);
+    });
+
+    setConvertedProjectTags(converted);
+  }, []);
 
   return (
     <div className="project-card-wrapper">
@@ -15,10 +40,10 @@ const ProjectCard = (project) => {
       <p className="project-desc">{fields.projectDescription.content[0].content[0].value}</p>
       {/* in order to be accessible to the CDA client, tags must be made public when being created in Contentful */}
       <ul className="project-tags">
-      {tags.map((tag, index) => {
-        // console.log('tag: ', tag);
-        return <li className="tag" key={index}>{tag.sys.id}</li>
-      })}
+        {convertedProjectTags.map(tag => {
+          console.log('tag object in final return: ', tag);
+          // return <li className="tag" key={tag[0].name}>{tag[0].name}</li>
+        })}
       </ul>
     </div>
   )
