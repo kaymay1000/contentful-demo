@@ -1,0 +1,58 @@
+// have to make use of inline styles (styles object) in AllProjectsPage
+// to hide/show since JS logic depends on style prop of targeted 
+// element, not CSS
+
+// .filters-wrapper {
+//   display: none;
+// }
+
+.filter-item {
+  width: auto;
+}
+
+.project-card-wrapper {
+  color: black;
+  text-decoration: none;
+  width: 100%;
+  align-items: center;
+}
+
+.project-title,
+.project-cover-image-link,
+.project-desc {
+  text-align: center;
+}
+
+.project-cover-image {
+  height: 250px;
+  width: 100%;
+  max-width: 460px;
+}
+
+.project-tags {
+  padding-left: 0;
+  margin: 0;
+}
+
+.project-tags li {
+  list-style-type: none;
+  margin: 10px;
+  padding: 10px 10px;
+  width: 75px;
+  border: 2px solid lightgray;
+  font-size: 12px;
+  text-decoration: none;
+  text-align: center;
+}
+
+@media only screen and (min-width: 768px) {}
+
+@media only screen and (min-width: 992px) {
+  .project-card-wrapper {
+    width: 50%;
+  }
+
+  .project-desc {
+    width: 65%;
+  }
+}

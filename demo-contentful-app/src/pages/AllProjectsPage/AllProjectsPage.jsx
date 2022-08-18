@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { contentfulDeliveryClient, contentfulManagementClient } from '../../contentfulClients';
 import ProjectCard from '../../components/ProjectCard';
 import './all-projects.scss';
-import '../../App.scss';
 
 const AllProjectsPage = () => {
 

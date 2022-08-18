@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { contentfulDeliveryClient } from '../../contentfulClients';
 import { Link } from 'react-router-dom';
 import './header.scss';
-import '../../App.scss';
 
 const Header = () => {
 

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-import '../Header/header.scss';
-import '../../App.scss';
+import './project-card.scss';
 
 const ProjectCard = (props) => {
 
