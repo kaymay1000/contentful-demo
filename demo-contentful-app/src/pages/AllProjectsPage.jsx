@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { contentfulDeliveryClient, contentfulManagementClient } from '../contentfulClients';
-import ProjectCard from '../components/ProjectCard';
+import { Link } from 'react-router-dom';
 import './all-projects.scss';
 import '../App.scss';
 
@@ -51,7 +51,6 @@ const AllProjectsPage = () => {
   };
 
   const filterProjects = () => {
-
     let projectsToDisplay = [];
     let currentFltrs = currentFilters;
     
@@ -62,10 +61,8 @@ const AllProjectsPage = () => {
         //   projectsToDisplay.push(project);
         // }
 
-        // console.log('project: ', project);
         // OR logic (matches one)
         project.metadata.tags.map(tag => {
-          // console.log('tag: ', tag)
             if (!projectsToDisplay.includes(project)) { // prevent duplicates from displaying
               if (currentFltrs.includes(tag.sys.id)) {
                 projectsToDisplay.push(project);
@@ -102,9 +99,32 @@ const AllProjectsPage = () => {
       </div>
 
       <div className="projects-wrapper">
-        { 
+        {
           currentProjects.map((project, index) => {
-            return <ProjectCard project={project} key={index}/>
+            let fields = project.fields;
+            let projectTags = project.metadata.tags;
+
+            return (
+              <div key={index} className="project-card-wrapper">
+                <h1 className="project-title">{fields.projectTitle}</h1>
+                <Link to={'/all-projects/' + fields.slug}>
+                  <img src={fields.projectImages[0].fields.file.url} className="project-cover-image" alt="logo"/>
+                </Link>
+                <p className="project-desc">{fields.projectDescription.content[0].content[0].value}</p>
+                {/* in order to be accessible to the CDA client, tags must be made public when being created in Contentful */}
+                <ul className="project-tags">
+                  {
+                    projectTags.map(projectTag => { 
+                      let filteredEnvTags = allTags.filter(envTag => envTag.sys.id === projectTag.sys.id);
+
+                      return filteredEnvTags.map(filteredTag => {
+                        return <li className="tag" key={filteredTag.name}>{filteredTag.name}</li>
+                      })
+                    })
+                  }
+                </ul>
+              </div>
+            )
           })
         }
       </div>

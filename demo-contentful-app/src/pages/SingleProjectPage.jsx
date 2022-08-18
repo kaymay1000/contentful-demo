@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { contentfulDeliveryClient } from '../contentfulClients';
-import ProjectCard from '../components/ProjectCard';
 import './single-project.scss';
 
 const SingleProjectPage = () => {
@@ -22,7 +21,7 @@ const SingleProjectPage = () => {
   if (!singleProject) return <></>
   return (
     <div className="single-project-page-wrapper">
-      <ProjectCard project={singleProject}/>
+      {/* <ProjectCard project={singleProject}/> */}
     </div>
   
   )
