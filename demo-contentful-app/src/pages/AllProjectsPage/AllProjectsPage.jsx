@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { contentfulDeliveryClient, contentfulManagementClient } from '../contentfulClients';
+import { contentfulDeliveryClient, contentfulManagementClient } from '../../contentfulClients';
 import { Link } from 'react-router-dom';
 import './all-projects.scss';
-import '../App.scss';
+import '../../App.scss';
 
 const AllProjectsPage = () => {
 

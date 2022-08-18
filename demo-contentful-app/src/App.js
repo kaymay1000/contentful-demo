@@ -1,8 +1,8 @@
 import './App.scss';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import SingleProjectPage from './pages/SingleProjectPage';
-import AllProjectsPage from './pages/AllProjectsPage';
+import SingleProjectPage from './pages/SingleProjectPage/SingleProjectPage';
+import AllProjectsPage from './pages/AllProjectsPage/AllProjectsPage';
 import {
   BrowserRouter as Router,
   Routes,
