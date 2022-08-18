@@ -1,6 +1,7 @@
 .flex {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .flex-col {
@@ -8,8 +9,40 @@
   flex-direction: column;
 }
 
-.flex-between {
+.justify-between {
   justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.align-end {
+  align-items: flex-end;
+}
+
+.align-start {
+  align-items: flex-start;
+}
+
+.display-none {
+  display: none;
+}
+
+.show-block {
+  display: block;
+}
+
+.show-flex {
+  display: flex;
 }
 
 .page-wrapper {

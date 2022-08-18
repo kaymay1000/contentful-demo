@@ -79,15 +79,37 @@ const AllProjectsPage = () => {
     }
   }
 
+  const toggleFilters = () => {
+    let filters = document.getElementById('filters-wrapper');
+    console.log('click event firing');
+    if (filters.style.display === 'none') {
+      filters.style.display = 'flex';
+      
+    } else {
+      filters.style.display = 'none';
+    }
+  }
+
+  // TODO: refactor hide/show logic to use use state
+  const defaultFiltersWrapperStyles = {
+    display: 'none',
+  }
+
   return (
     <div className="all-projects-page-wrapper page-wrapper">
-      <div className="filters-wrapper">
+      <div>
+          <button id="toggle-filters-button" onClick={toggleFilters}>Filter Results</button>
+      </div>
+
+      <div id="filters-wrapper" className="filters-wrapper" style={defaultFiltersWrapperStyles}>
+   
         {allTags.map((tag, index) => {
           return (
             <div key={index}>
               <input
                 multiple
                 placeholder="Filter projects"
+                className="filter-item"
                 id={tag.sys.id} // tag.sys.id must be used (instead of tag.name) in order for filterProjects's map function to work properly
                 type="checkbox"
                 onChange={handleFilterChange}
@@ -98,21 +120,21 @@ const AllProjectsPage = () => {
         })}
       </div>
 
-      <div className="projects-wrapper">
+      <div className="projects-wrapper flex justify-around">
         {
           currentProjects.map((project, index) => {
             let fields = project.fields;
             let projectTags = project.metadata.tags;
 
             return (
-              <div key={index} className="project-card-wrapper">
+              <div key={index} className="project-card-wrapper flex-col">
                 <h1 className="project-title">{fields.projectTitle}</h1>
-                <Link to={'/all-projects/' + fields.slug}>
+                <Link to={'/all-projects/' + fields.slug} className="project-cover-image-link">
                   <img src={fields.projectImages[0].fields.file.url} className="project-cover-image" alt="logo"/>
                 </Link>
                 <p className="project-desc">{fields.projectDescription.content[0].content[0].value}</p>
                 {/* in order to be accessible to the CDA client, tags must be made public when being created in Contentful */}
-                <ul className="project-tags">
+                <ul className="project-tags flex justify-center">
                   {
                     projectTags.map(projectTag => { 
                       let filteredEnvTags = allTags.filter(envTag => envTag.sys.id === projectTag.sys.id);
