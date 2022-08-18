@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { contentfulDeliveryClient, contentfulManagementClient } from '../../contentfulClients';
-import { Link } from 'react-router-dom';
+import ProjectCard from '../../components/ProjectCard';
 import './all-projects.scss';
 import '../../App.scss';
 
 const AllProjectsPage = () => {
 
-  const [allTags, setAllTags] = useState([]);
+  const [envTags, setEnvTags] = useState([]);
   const [allProjects, setAllProjects] = useState([]);
   const [currentFilters, setCurrentFilters] = useState([]);
   const [currentProjects, setCurrentProjects] = useState([]);
@@ -21,16 +21,17 @@ const AllProjectsPage = () => {
       .catch(error => console.log('Error getting all projects: ', error));
     };
 
-    const getAllTags = async () => {
+    // have to get all environment tags since a given project's metadata only includes tag id's, not readable tag names
+    const getEnvTags = async () => {
       await contentfulManagementClient.getSpace(process.env.REACT_APP_CONTENTFUL_SPACE_ID)
       .then(space => space.getEnvironment(process.env.REACT_APP_CONTENTFUL_ENVIRONMENT_ID))
       .then(env => env.getTags())
-      .then(tags => setAllTags(tags.items))
+      .then(tags => setEnvTags(tags.items))
       .catch(console.error);
     };
 
     getAllProjects();
-    getAllTags();
+    getEnvTags();
   }, []); // empty dependency array since this should only run once (on page load/when component mounts)
 
   const handleFilterChange = (event) => {
@@ -81,10 +82,9 @@ const AllProjectsPage = () => {
 
   const toggleFilters = () => {
     let filters = document.getElementById('filters-wrapper');
-    console.log('click event firing');
     if (filters.style.display === 'none') {
       filters.style.display = 'flex';
-      
+
     } else {
       filters.style.display = 'none';
     }
@@ -103,14 +103,14 @@ const AllProjectsPage = () => {
 
       <div id="filters-wrapper" className="filters-wrapper" style={defaultFiltersWrapperStyles}>
    
-        {allTags.map((tag, index) => {
+        {envTags.map((tag, index) => {
           return (
             <div key={index}>
               <input
                 multiple
                 placeholder="Filter projects"
                 className="filter-item"
-                id={tag.sys.id} // tag.sys.id must be used (instead of tag.name) in order for filterProjects's map function to work properly
+                id={tag.sys.id} // tag.sys.id must be used (instead of tag.name) in order for handleFilterChange and filterProjects to work properly
                 type="checkbox"
                 onChange={handleFilterChange}
               />
@@ -123,30 +123,7 @@ const AllProjectsPage = () => {
       <div className="projects-wrapper flex justify-around">
         {
           currentProjects.map((project, index) => {
-            let fields = project.fields;
-            let projectTags = project.metadata.tags;
-
-            return (
-              <div key={index} className="project-card-wrapper flex-col">
-                <h1 className="project-title">{fields.projectTitle}</h1>
-                <Link to={'/all-projects/' + fields.slug} className="project-cover-image-link">
-                  <img src={fields.projectImages[0].fields.file.url} className="project-cover-image" alt="logo"/>
-                </Link>
-                <p className="project-desc">{fields.projectDescription.content[0].content[0].value}</p>
-                {/* in order to be accessible to the CDA client, tags must be made public when being created in Contentful */}
-                <ul className="project-tags flex justify-center">
-                  {
-                    projectTags.map(projectTag => { 
-                      let filteredEnvTags = allTags.filter(envTag => envTag.sys.id === projectTag.sys.id);
-
-                      return filteredEnvTags.map(filteredTag => {
-                        return <li className="tag" key={filteredTag.name}>{filteredTag.name}</li>
-                      })
-                    })
-                  }
-                </ul>
-              </div>
-            )
+            return <ProjectCard key={index} project={project} envTags={envTags} />
           })
         }
       </div>

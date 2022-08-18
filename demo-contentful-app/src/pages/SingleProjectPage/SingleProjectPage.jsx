@@ -5,19 +5,21 @@ import './single-project.scss';
 
 const SingleProjectPage = () => {
   const [singleProject, setSingleProject] = useState(null);
-  const [allTags, setAllTags] = useState([]);
+  const [envTags, setEnvTags] = useState([]);
   const { slug } = useParams();
 
   useEffect(() => {
-    const getAllTags = async () => {
+    // still have to get env tags to display below project images, since project metadata only includes tag id's
+    // TODO: see if there's a way to pass envTags to the project that was clicked on All Projects Page?
+    const getEnvTags = async () => {
       await contentfulManagementClient.getSpace(process.env.REACT_APP_CONTENTFUL_SPACE_ID)
       .then(space => space.getEnvironment(process.env.REACT_APP_CONTENTFUL_ENVIRONMENT_ID))
       .then(env => env.getTags())
-      .then(tags => setAllTags(tags.items))
+      .then(tags => setEnvTags(tags.items))
       .catch(console.error);
     };
 
-    getAllTags();
+    getEnvTags();
   }, [])
 
   useEffect(() => {
@@ -42,7 +44,8 @@ const SingleProjectPage = () => {
         <ul className="project-tags">
           {
             singleProject.metadata.tags.map(projectTag => { 
-              let filteredEnvTags = allTags.filter(envTag => envTag.sys.id === projectTag.sys.id);
+              // match environment tag id to project tag id, then display environment tag's name
+              let filteredEnvTags = envTags.filter(envTag => envTag.sys.id === projectTag.sys.id);
               return filteredEnvTags.map(filteredTag => {
                 return <li className="tag" key={filteredTag.name}>{filteredTag.name}</li>
               })

@@ -11,11 +11,7 @@ const Header = () => {
   useEffect(() => {
     let getLogoImage = async () => {
       await contentfulDeliveryClient.getEntries({content_type: 'logo'})
-      .then(response => {
-        console.log('response: ', response.items[0]);
-        console.log('response...: ', response.items[0].fields.logoImage.fields.file.url)
-        setLogoImage(response.items[0].fields.logoImage.fields.file.url);
-      })
+      .then(response => setLogoImage(response.items[0].fields.logoImage.fields.file.url))
       .catch(error => console.log('Error getting logo image: ', error));
     };
 
