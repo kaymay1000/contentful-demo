@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { contentfulDeliveryClient, contentfulManagementClient } from '../../contentfulClients';
 import ProjectCard from '../../components/ProjectCard';
+import Filter from '../../components/Filter';
 import './all-projects.scss';
 
 const AllProjectsPage = () => {
@@ -81,11 +82,15 @@ const AllProjectsPage = () => {
 
   const toggleFilters = () => {
     let filters = document.getElementById('filters-wrapper');
+    let filtersButton = document.getElementById('toggle-filters-button');
+
     if (filters.style.display === 'none') {
       filters.style.display = 'flex';
-
+      filters.style.justifyContent = 'center';
+      filtersButton.innerHTML = 'Show All';
     } else {
       filters.style.display = 'none';
+      filtersButton.innerHTML = 'Filter Projects';
     }
   }
 
@@ -96,29 +101,14 @@ const AllProjectsPage = () => {
 
   return (
     <div className="all-projects-page-wrapper page-wrapper">
-      <div>
-          <button id="toggle-filters-button" onClick={toggleFilters}>Filter Results</button>
-      </div>
-
+      <button id="toggle-filters-button" onClick={toggleFilters}>Filter Projects</button>
       <div id="filters-wrapper" className="filters-wrapper" style={defaultFiltersWrapperStyles}>
-   
-        {envTags.map((tag, index) => {
-          return (
-            <div key={index}>
-              <input
-                multiple
-                placeholder="Filter projects"
-                className="filter-item"
-                id={tag.sys.id} // tag.sys.id must be used (instead of tag.name) in order for handleFilterChange and filterProjects to work properly
-                type="checkbox"
-                onChange={handleFilterChange}
-              />
-              <label htmlFor={tag.sys.id}>{tag.name}</label>
-            </div>
-          )
-        })}
+        {
+          envTags.map((tag, index) => {
+            return <Filter key={index} tag={tag} handleFilterChange={handleFilterChange} />
+          })
+        }
       </div>
-
       <div className="projects-wrapper flex justify-around">
         {
           currentProjects.map((project, index) => {
