@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import SingleProjectPage from './pages/SingleProjectPage/SingleProjectPage';
 import AllProjectsPage from './pages/AllProjectsPage/AllProjectsPage';
+import HomePage from './pages/HomePage/HomePage';
 import {
   BrowserRouter as Router,
   Routes,
@@ -16,7 +17,7 @@ const App = () => {
       <Routes>
         <Route 
           path="/"
-          element={<h1>Home Page</h1>}
+          element={<HomePage/>}
         />
         <Route 
           path="/all-projects/:slug"
@@ -28,7 +29,7 @@ const App = () => {
         />
         <Route 
           path="*"
-          element={<h1>Home Page</h1>}
+          element={<HomePage/>}
         />
       </Routes>
       <Footer/>

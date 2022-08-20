@@ -25,12 +25,16 @@ nav a {
   display: none;
 }
 
-a:hover {
+nav a:hover {
+  text-decoration: underline;
+}
+
+.active {
   text-decoration: underline;
 }
 
 @media only screen and (min-width: 992px) {
-  nav svg {
+  .hamburger-button {
     display: none;
   }
 

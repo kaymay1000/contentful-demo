@@ -7,10 +7,21 @@
 // }
 
 .project-card-wrapper {
-  color: black;
+  background-color: lightgray;
   text-decoration: none;
   width: 100%;
   align-items: center;
+  margin: 10px auto;
+  padding: 20px;
+}
+
+.project-title {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+.project-desc {
+  font-size: 14px;
 }
 
 .project-title,
@@ -22,7 +33,7 @@
 .project-cover-image {
   height: 250px;
   width: 100%;
-  max-width: 460px;
+  max-width: 400px;
 }
 
 .project-tags {
@@ -32,11 +43,12 @@
 
 .project-tags li {
   list-style-type: none;
-  margin: 10px;
-  padding: 10px 10px;
-  width: 75px;
-  border: 2px solid lightgray;
-  font-size: 12px;
+  background-color: white;
+  margin: 10px 4px;
+  padding: 6px;
+  width: 65px;
+  border: 2px solid black;
+  font-size: 10px;
   text-decoration: none;
   text-align: center;
 }
@@ -45,10 +57,18 @@
 
 @media only screen and (min-width: 992px) {
   .project-card-wrapper {
-    width: 50%;
+    width: 35%;
+  }
+  .project-title {
+    font-size: 24px;
+  }
+  .project-desc {
+    font-size: 16px;
   }
 
-  .project-desc {
-    width: 65%;
+  .project-tags li {
+    width: 75px;
+    font-size: 12px;
+    margin: 10px 5px;
   }
 }

@@ -3,6 +3,8 @@ import { contentfulDeliveryClient, contentfulManagementClient } from '../../cont
 import ProjectCard from '../../components/ProjectCard';
 import Filter from '../../components/Filter';
 import './all-projects.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faFilter, faXmark} from '@fortawesome/free-solid-svg-icons';
 
 const AllProjectsPage = () => {
 
@@ -83,26 +85,31 @@ const AllProjectsPage = () => {
   const toggleFilters = () => {
     let filters = document.getElementById('filters-wrapper');
     let filtersButton = document.getElementById('toggle-filters-button');
+    let closeButton = document.getElementById('toggle-close-button');
 
     if (filters.style.display === 'none') {
       filters.style.display = 'flex';
       filters.style.justifyContent = 'center';
-      filtersButton.innerHTML = 'Show All';
+      filtersButton.style.display = 'none';
+      closeButton.style.display = 'block';
     } else {
       filters.style.display = 'none';
-      filtersButton.innerHTML = 'Filter Projects';
+      filtersButton.style.display = 'block';
+      closeButton.style.display = 'none';
     }
   }
 
   // TODO: refactor hide/show logic to use use state
-  const defaultFiltersWrapperStyles = {
+  const defaultStyles = {
     display: 'none',
   }
 
   return (
     <div className="all-projects-page-wrapper page-wrapper">
-      <button id="toggle-filters-button" onClick={toggleFilters}>Filter Projects</button>
-      <div id="filters-wrapper" className="filters-wrapper" style={defaultFiltersWrapperStyles}>
+      <h1 className="page-title">All Projects</h1>
+      <button id="toggle-filters-button" className="filter-button" onClick={toggleFilters}><FontAwesomeIcon icon={faFilter}/></button>
+      <button id="toggle-close-button" className="filter-button" style={defaultStyles} onClick={toggleFilters}><FontAwesomeIcon icon={faXmark}/></button>
+      <div id="filters-wrapper" className="filters-wrapper" style={defaultStyles}>
         {
           envTags.map((tag, index) => {
             return <Filter key={index} tag={tag} handleFilterChange={handleFilterChange} />

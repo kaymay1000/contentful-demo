@@ -10,8 +10,9 @@ const ProjectCard = (props) => {
 
   return (
     <div className="project-card-wrapper flex-col">
-      <h1 className="project-title">{fields.projectTitle}</h1>
+      <h2 className="project-title">{fields.projectTitle}</h2>
       <Link to={'/all-projects/' + fields.slug} className="project-cover-image-link">
+        {/* TODO: figure out how to lazy load contentful images */}
         <img src={fields.projectImages[0].fields.file.url} className="project-cover-image" alt="logo"/>
       </Link>
       <p className="project-desc">{fields.projectDescription.content[0].content[0].value}</p>

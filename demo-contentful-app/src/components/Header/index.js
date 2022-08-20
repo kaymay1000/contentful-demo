@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { contentfulDeliveryClient } from '../../contentfulClients';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import './header.scss';
 
 const Header = () => {
@@ -17,15 +19,29 @@ const Header = () => {
     getLogoImage();
   }, []);
 
+  // TODO: implement mobile side nav
+  const toggleMobileNav = () => {
+    console.log('clicked!')
+  }
+
+  // TODO: figure out how to implement active state
+  const toggleActive = (event) => {
+    if (event.target.classList.includes('active')) {
+      event.target.classList.remove('active');
+    } else {
+      event.target.classList.add('active');
+    }
+  }
+
   return (
     <header className="app-header flex justify-between align-center">
       <div className="header-logo">
-        <img alt="logo" src={logoImage}></img>
+        <Link to="/" onClick={toggleActive}><img alt="logo" src={logoImage}/></Link>
       </div>
       <nav className="header-nav">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
-        <Link to="/">Home</Link>
-        <Link to="/all-projects">All Projects</Link>
+        <button onClick={toggleMobileNav} className="hamburger-button"><FontAwesomeIcon icon={faBars}></FontAwesomeIcon></button> 
+        <Link to="/" onClick={toggleActive}>Home</Link>
+        <Link to="/all-projects" onClick={toggleActive}>All Projects</Link>
       </nav>
     </header>
   )
