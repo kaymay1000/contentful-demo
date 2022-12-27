@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { contentfulDeliveryClient, contentfulManagementClient } from '../../contentfulClients';
-import './single-project.scss';
+import './single-project-page.scss';
 
 const SingleProjectPage = () => {
   const [singleProject, setSingleProject] = useState(null);
@@ -10,7 +10,7 @@ const SingleProjectPage = () => {
 
   useEffect(() => {
     // still have to get env tags to display below project images, since project metadata only includes tag id's
-    // TODO: see if there's a way to pass envTags to the project that was clicked on All Projects Page?
+    // TODO: see if there's a way to pass envTags to the project that was clicked on Portfolio Page?
     const getEnvTags = async () => {
       await contentfulManagementClient.getSpace(process.env.REACT_APP_CONTENTFUL_SPACE_ID)
       .then(space => space.getEnvironment(process.env.REACT_APP_CONTENTFUL_ENVIRONMENT_ID))

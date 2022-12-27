@@ -11,7 +11,7 @@ const ProjectCard = (props) => {
   return (
     <div className="project-card-wrapper flex-col">
       <h2 className="project-title">{fields.projectTitle}</h2>
-      <Link to={'/all-projects/' + fields.slug} className="project-cover-image-link">
+      <Link to={'/portfolio/' + fields.slug} className="project-cover-image-link">
         {/* TODO: figure out how to lazy load contentful images */}
         <img src={fields.projectImages[0].fields.file.url} className="project-cover-image" alt="logo"/>
       </Link>

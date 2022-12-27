@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { contentfulDeliveryClient, contentfulManagementClient } from '../../contentfulClients';
 import ProjectCard from '../../components/ProjectCard';
 import Filter from '../../components/Filter';
-import './all-projects.scss';
+import './portfolio-page.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faFilter, faXmark} from '@fortawesome/free-solid-svg-icons';
 
-const AllProjectsPage = () => {
+const PortfolioPage = () => {
 
   const [envTags, setEnvTags] = useState([]);
   const [allProjects, setAllProjects] = useState([]);
@@ -105,7 +105,7 @@ const AllProjectsPage = () => {
   }
 
   return (
-    <div className="all-projects-page-wrapper page-wrapper">
+    <div className="portfolio-page-wrapper page-wrapper">
       <h1 className="page-title">All Projects</h1>
       <button id="toggle-filters-button" className="filter-button" onClick={toggleFilters}><FontAwesomeIcon icon={faFilter}/></button>
       <button id="toggle-close-button" className="filter-button" style={defaultStyles} onClick={toggleFilters}><FontAwesomeIcon icon={faXmark}/></button>
@@ -127,4 +127,4 @@ const AllProjectsPage = () => {
   )
 }
 
-export default AllProjectsPage;
+export default PortfolioPage;

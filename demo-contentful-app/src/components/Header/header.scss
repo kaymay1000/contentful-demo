@@ -1,8 +1,5 @@
 .app-header {
-  background-color: #282c34;
-  height: 70px;
-  color: white;
-  padding: 10px 40px;
+  padding: 15px 30px;
 }
 
 .header-logo img {
@@ -19,7 +16,7 @@ nav svg {
 }
 
 nav a {
-  color: white;
+  color: black;
   text-decoration: none;
   margin-left: 20px;
   display: none;
@@ -27,6 +24,18 @@ nav a {
 
 nav a:hover {
   text-decoration: underline;
+}
+
+.hamburger-button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+.hamburger-button svg {
+  color: black;
+  height: 30px;
+  width: 30px;
 }
 
 .active {

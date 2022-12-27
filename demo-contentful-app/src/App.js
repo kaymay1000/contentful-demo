@@ -2,7 +2,9 @@ import './App.scss';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import SingleProjectPage from './pages/SingleProjectPage/SingleProjectPage';
-import AllProjectsPage from './pages/AllProjectsPage/AllProjectsPage';
+import PortfolioPage from './pages/PortfolioPage/PortfolioPage';
+import ServicesPage from './pages/ServicesPage/ServicesPage';
+import ContactPage from './pages/ContactPage/ContactPage';
 import HomePage from './pages/HomePage/HomePage';
 import {
   BrowserRouter as Router,
@@ -20,12 +22,20 @@ const App = () => {
           element={<HomePage/>}
         />
         <Route 
-          path="/all-projects/:slug"
+          path="portfolio/:slug"
           element={<SingleProjectPage/>}
         />
         <Route 
-          path="all-projects"
-          element={<AllProjectsPage/>}
+          path="portfolio"
+          element={<PortfolioPage/>}
+        />
+        <Route 
+          path="services"
+          element={<ServicesPage/>}
+        />
+        <Route 
+          path="contact"
+          element={<ContactPage/>}
         />
         <Route 
           path="*"

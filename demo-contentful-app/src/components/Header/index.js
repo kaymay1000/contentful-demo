@@ -41,7 +41,9 @@ const Header = () => {
       <nav className="header-nav">
         <button onClick={toggleMobileNav} className="hamburger-button"><FontAwesomeIcon icon={faBars}></FontAwesomeIcon></button> 
         <Link to="/" onClick={toggleActive}>Home</Link>
-        <Link to="/all-projects" onClick={toggleActive}>All Projects</Link>
+        <Link to="/portfolio" onClick={toggleActive}>Portfolio</Link>
+        <Link to="/services" onClick={toggleActive}>Services</Link>
+        <Link to="/contact" onClick={toggleActive}>Contact</Link>
       </nav>
     </header>
   )
