@@ -1,12 +1,12 @@
 const ContactForm = () => {
 
+  // TODO: figure out how to style this on all screen sizes
   const iframeStyles = {
     'width': '100%',
-    'minHeight': '725px',
+    'minHeight': '660px',
     'border': 'none',
     'margin': '0 auto'
   }
-
 
   return (
     <div className="jotform-wrapper flex">

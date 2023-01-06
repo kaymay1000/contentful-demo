@@ -1,6 +1,49 @@
 .home-page-wrapper {
+  .hero-image {
+    background-image: url('./../../assets/hero.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 300px;
+    width: 100%;
+    position: relative;
+  }
+
+  .hero-content {
+    width: 300px;
+    height: 100px;
+    margin: 0 auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 25%;
+    color: white;
+    text-align: center;
+  }
+
+  .hero-content > h1 {
+    margin-bottom: 0px;
+  }
+
+  .hero-content > p {
+    font-size: 16px;
+  }
+
   .about-section {
     background: linear-gradient(#E5E5E5, #C9C9C9);
+
+    .about-text {
+      width: 100%;
+    }
+
+    .about-text button {
+      margin: 5px auto;
+      display: block;
+    }
+
+    .about-image img {
+      display: none;
+    }
   }
 
   .portfolio-section {
@@ -13,5 +56,94 @@
 
   .contact-form-section {
     background: linear-gradient(#838383, #3A3A3A);
+
+    .jotform-wrapper {
+      // margin: 0 auto;
+    }
   }
+}
+
+@media (min-width: 768px) {
+  .home-page-wrapper {
+    .hero-image {
+        height: 430px;
+    }
+
+    .hero-content {
+      width: 400px;
+      top: 30%;
+    }
+
+    .hero-content > p {
+      font-size: 20px;
+    }
+
+    .about-section {
+      .about-inner {
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .about-text {
+        margin: 10px;
+        max-width: 52%;
+      }
+
+      .about-text .headline {
+        text-align: left !important;
+      }
+
+      .about-text button {
+        margin: 20px 0;
+      }
+
+      .about-image {
+        margin: 10px;
+      }
+
+      .about-image img {
+        display: block;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+      }
+    }
+
+    .contact-form-section {
+      // .jotform-wrapper {
+      //   width: 85%;
+      // }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .home-page-wrapper {
+      .hero-image {
+        height: 730px;
+      }
+  
+      .hero-content {
+        top: 35%;
+      }
+
+      .about-section {
+        .about-inner {
+          max-width: 85%;
+        }
+
+        .about-text {
+          max-width: 55%;
+        }
+      }
+
+      .contact-form-section {
+        // .jotform-wrapper {
+        //   width: 65%;
+        // }
+      }
+    }
+
 }
