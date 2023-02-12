@@ -8,7 +8,7 @@ const HomePage = () => {
         <div className="hero-image">
           <div className="hero-content">
             <h1 className="headline">Grayscale Creative</h1>
-            <p>Some catchy tagline here</p>
+            <p>Some catchy tagline here!</p>
           </div>
         </div>
       </section>
